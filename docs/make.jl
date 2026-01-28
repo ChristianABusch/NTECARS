@@ -19,5 +19,5 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/Optical-Diagnostic/NTECARS.git",
+    repo = "github.com/Optical-Diagnostics/NTECARS.git",
 )
