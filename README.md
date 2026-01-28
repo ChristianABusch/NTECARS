@@ -7,7 +7,7 @@ NTECARS is julia package for calculating and fitting dual-pump coherent anti-Sto
 ## Installation
 ```julia
 using Pkg
-Pkg.add("https://github.com/Optical-Diagnostics/NTECARS")
+Pkg.add(url="https://github.com/Optical-Diagnostics/NTECARS")
 ```
 
 ## Tutorials and Documentation
