@@ -11,7 +11,7 @@ Pkg.add("https://github.com/ChristianABusch/NTECARS")
 ```
 
 ## Tutorials and Documentation
-The latest tutorials and information are found in the [documentation](https://christianabusch.github.io/NTECARS/dev/)
+The latest tutorials and information are found in the [documentation](https://christianabusch.github.io/NTECARS/dev/) (WIP)
 
 
 ## Example
