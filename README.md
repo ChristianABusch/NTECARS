@@ -1,17 +1,17 @@
 # NTECARS
 
-[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://christianabusch.github.io/NTECARS/dev/)
+[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://optical-diagnostics.github.io/NTECARS/dev/)
 
 NTECARS is julia package for calculating and fitting dual-pump coherent anti-Stokes Raman scattering spectra under non-equilibrium conditions. A companion paper is currently being submitted. The code allows for a flexible modeling of the rovibrational distribution functions using either multi-temperature models or vibrational-distribution-free fitting. Convolutions with laser profiles and instrumental profiles are implemented.
 
 ## Installation
 ```julia
 using Pkg
-Pkg.add("https://github.com/ChristianABusch/NTECARS")
+Pkg.add("https://github.com/Optical-Diagnostics/NTECARS")
 ```
 
 ## Tutorials and Documentation
-The latest tutorials and information are found in the [documentation](https://christianabusch.github.io/NTECARS/dev/) (WIP)
+The latest tutorials and information are found in the [documentation](https://optical-diagnostics.github.io/NTECARS/dev/) (WIP)
 
 
 ## Example
