@@ -91,7 +91,7 @@ function fit_spectrum(;
 
         prob = NonlinearLeastSquaresProblem(levenberg_residual, inv_levenberg_parameter_transform(initial))
         solver = LevenbergMarquardt(autodiff = ADTypes.AutoFiniteDiff())
-        optimal_parameters = solve(prob, solver, abstol = 0.01, reltol = 0.100, maxiters = maxiters).u
+        optimal_parameters = solve(prob, solver, abstol = 0.1, reltol = 0.100, maxiters = maxiters).u
         optimal_parameters = levenberg_parameter_transform(optimal_parameters)
     end
 

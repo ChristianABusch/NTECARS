@@ -67,11 +67,10 @@ function χ_CARS(;
     max_νfi = ν_raman[end]
     min_νfi = ν_raman[1]
 
-    N_spec = length(ν_raman)
-
-    buffer.χ      .= 0.0
     buffer.χ_real .= 0.0
     buffer.χ_imag .= 0.0
+    buffer.χ_band_real .= 0.0
+    buffer.χ_band_imag .= 0.0
     buffer.narrowing_function_real .= 1.0
     buffer.narrowing_function_imag .= 0.0
     buffer.σ_real .= 0.0
@@ -96,8 +95,8 @@ function χ_CARS(;
             lorentz_line_profile_real!(buffer.σ_real, ν_raman, ν_fi, γ_fi)
 
             #apply_narrowing!(buffer, ρ_i, γ_fi, a)
-            @tturbo @. buffer.χ_real += a * buffer.σ_real
-            @tturbo @. buffer.χ_imag += a * buffer.σ_imag
+            @tturbo @. buffer.χ_band_real += a * buffer.σ_real
+            @tturbo @. buffer.χ_band_imag += a * buffer.σ_imag
 
             if use_collisional_narrowing(species)
                 # split into real and imaginary: 1 + i*∑ ρ * γ_fi * (σ_real + i * σ_imag) = 1 - ∑ρ*γ_fi*σ_imag +  i*∑ ρ * γ_fi * σ_real
@@ -106,35 +105,32 @@ function χ_CARS(;
             end
         end
 
-        complex_div_and_add!(
-            buffer.χ,
+        split_complex_division(
             buffer.χ_real,
             buffer.χ_imag,
+            buffer.χ_band_real,
+            buffer.χ_band_imag,
             buffer.narrowing_function_real,
             buffer.narrowing_function_imag
         )
         # slower version:
         #buffer.χ += Complex(buffer.χ_real, buffer.χ_imag) / Complex(buffer.narrowing_function_real, buffer.narrowing_function_imag)
         
-        
-        buffer.χ_real .= 0.0
-        buffer.χ_imag .= 0.0
+        buffer.χ_band_real .= 0.0
+        buffer.χ_band_imag .= 0.0
         buffer.narrowing_function_real .= 1.0
         buffer.narrowing_function_imag .= 0.0
     end
 
-    return buffer.χ
+    return Complex.(buffer.χ_real, buffer.χ_imag) #buffer.χ
 end
 
-function complex_div_and_add!(χ::Vector{Complex},
+function split_complex_division(χ_real::Vector{Float64}, χ_imag::Vector{Float64},
                       σr::Vector{Float64}, σi::Vector{Float64},
                       ηr::Vector{Float64}, ηi::Vector{Float64})
 
-    # faster version of χ += (σr +i*σi) / (ηr +i*ηi)
-    Threads.@threads for i in eachindex(χ)
-        denom = ηr[i]^2 + ηi[i]^2
-        χ[i] += (σr[i]*ηr[i] + σi[i]*ηi[i]) / denom + 1im*(σi[i]*ηr[i] - σr[i]*ηi[i]) / denom
-    end
+    @tturbo @. χ_real += (σr*ηr + σi*ηi) / (ηr^2 + ηi^2) 
+    @tturbo @. χ_imag += (σi*ηr - σr*ηi) / (ηr^2 + ηi^2)
 end
 
 

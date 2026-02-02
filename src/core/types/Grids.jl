@@ -1,15 +1,16 @@
 mutable struct CARSBuffers
-    χ      ::Vector{Complex}
     χ_real ::Vector{Float64}
     χ_imag ::Vector{Float64}
+    χ_band_real ::Vector{Float64}
+    χ_band_imag ::Vector{Float64}
     narrowing_function_real::Vector{Float64}
     narrowing_function_imag::Vector{Float64}
     σ_real::Vector{Float64}
     σ_imag::Vector{Float64}
 
     function CARSBuffers(N)
-        new(zeros(Complex, N), zeros(Float64, N), zeros(Float64, N), zeros(Float64, N), 
-        zeros(Float64, N), zeros(Float64, N), zeros(Float64, N))
+        new(zeros(Float64, N), zeros(Float64, N), zeros(Float64, N), zeros(Float64, N), 
+        zeros(Float64, N), zeros(Float64, N), zeros(Float64, N), zeros(Float64, N))
     end
 end
 
